@@ -1,6 +1,6 @@
 
 import sys
-from please import please
+from .please import please
 
 def main():
     if len(sys.argv) < 2:
