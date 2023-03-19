@@ -6,6 +6,7 @@ import shlex
 import requests
 from termcolor import colored, cprint
 import json
+import random
 
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
@@ -62,6 +63,9 @@ Script:
 Output:
 """
 
+def gen_uid():
+    return ''.join(random.choice('0123456789abcdef') for i in range(16))
+
 def get_bash_explanation(query):
     messages = [
         {
@@ -88,6 +92,7 @@ def perform_bash_command(query):
     ]
 
     script = None
+    script_fname = '/tmp/script-' + gen_uid() + '.sh'
 
     def generate_script():
         needinfo_questions = {}
@@ -132,7 +137,7 @@ def perform_bash_command(query):
             script = script.replace('$' + var, value)
 
         # Save the script to a temporary file
-        with open('/tmp/script.sh', 'w') as f:
+        with open(script_fname, 'w') as f:
             f.write('set -e\nset -o pipefail\n' + script + '\nset +o pipefail\nset +e')
 
         return script
@@ -146,7 +151,7 @@ def perform_bash_command(query):
 
     while has_error and retries < 3:
         try:
-            output = subprocess.check_output(['bash', '/tmp/script.sh'], stderr=subprocess.STDOUT)
+            output = subprocess.check_output(['bash', script_fname], stderr=subprocess.STDOUT)
             has_error = False
         except subprocess.CalledProcessError as e:
             err_string = e.output.decode('utf-8')
@@ -172,7 +177,7 @@ def perform_bash_command(query):
     cprint(output.decode('utf-8') + '\n', attrs=['bold'])
 
     # Delete the temporary file
-    os.remove('/tmp/script.sh')
+    os.remove(script_fname)
 
 
 def please(user_input):
