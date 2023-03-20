@@ -12,7 +12,7 @@ pip install git+https://github.com/aniiyengar/please.git
 
 ### Usage
 
-| **NOTE:** You need to pass your OpenAI API key in your environment as `OPENAI_API_KEY`.
+> **NOTE:** You need to pass your OpenAI API key in your environment as `OPENAI_API_KEY`.
 
 Type your prompt in natural language starting with the word "please".
 
