@@ -75,7 +75,7 @@ def get_bash_explanation(query):
     ]
 
     result = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
+        model="gpt-4",
         messages=messages,
         stop=None,
         temperature=0,
@@ -99,7 +99,7 @@ def perform_bash_command(query):
         require_vars = {}
 
         result = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",
+            model="gpt-4",
             messages=messages,
             stop=None,
             temperature=0,
