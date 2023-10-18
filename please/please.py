@@ -99,7 +99,7 @@ def perform_bash_command(query):
         require_vars = {}
 
         result = openai.ChatCompletion.create(
-            model="gpt-4",
+            model="gpt-4-0613",
             messages=messages,
             stop=None,
             temperature=0,
